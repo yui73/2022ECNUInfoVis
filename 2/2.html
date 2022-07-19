@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>DataVis_Practice_2_2</title>
+</head>
+<body>
+
+<!-- 载入D3库 -->
+<script src="../static/js/d3.v3.min.js"></script>
+
+<script type="text/javascript">
+	d3.csv("../2/data/02-AQIData.csv", function(data) {
+		//此文件载入操作是异步，以下代码在文件完全载入后触发
+		console.log(data);
+	});
+</script>
+
+</body>
+</html>

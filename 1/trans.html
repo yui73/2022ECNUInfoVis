@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-cn" style="height: 100%">
+<head>
+  <meta charset="utf-8">
+</head>
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+  
+  <script type="text/javascript" src="../static/js/echarts.js"></script>
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    // 博客写法
+    var myChart = echarts.init(document.querySelector('div'));
+    // 官网写法
+    // var myChart = echarts.init(dom, null, {
+    //   renderer: 'canvas',
+    //   useDirtyRect: false
+    // });
+    var app = {};
+
+    const dataset={
+      dimensions:['major','sum'],
+      source:[
+        ['19级大数据','4'],
+        ['20级大数据','26'],
+        ['20级新闻','1'],
+        ['21级大数据','5'],
+        ['22级大数据','1'],
+      ]
+    };
+
+    const pieOption = {
+      dataset:[dataset],
+      series:[
+        {
+          type:'pie',
+          // 此处关联变化id
+          id:'Sum',
+          radius:[0,'50%'],
+          universalTransition: true,
+          animationDurationUpdate: 1000,
+        }
+      ]
+    };
+
+    const barOption = {
+      dataset:[dataset],
+      xAxis: {
+        type: 'category',
+        // boundaryGap: false,
+      },
+      yAxis: {},
+      series: [
+        {
+          id:'Sum',
+          type: 'bar',
+          colorBy: 'data',
+          encode:{x:'major',y:'sum'},
+          universalTransition: true,
+          animationDurationUpdate: 1000,
+        }
+      ]
+    };
+
+    var option;
+
+    option = barOption;
+
+    setInterval(() => {
+      option = option === pieOption ? barOption : pieOption;
+      // 使用 notMerge 的形式可以移除坐标轴
+      myChart.setOption(option, true);
+    }, 2000);
+
+    window.addEventListener('resize', myChart.resize);
+
+
+  </script>
+</body>
+</html>
