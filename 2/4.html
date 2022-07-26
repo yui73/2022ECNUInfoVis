@@ -8,6 +8,11 @@
     <!-- 载入D3库 -->
     <script src="../static/js/d3.v3.min.js"></script>
 
+    <!-- 载入K-means算法库 -->
+    <script src="../kmeans/lib/kmeans.js"></script>
+    <script src="../kmeans/lib/cluster.js"></script>
+    <script src="../kmeans/lib/distance.js"></script>
+
     <!-- 
 	  -- 一个画布
 	  -- 画布相关代码参考：https://www.w3school.com.cn/html5/html_5_canvas.asp
@@ -32,17 +37,32 @@
         // data中保存了图片所有像素的颜色信息，每个像素的RGBA信息占数组中4位
         // RGBA为像素的红色、绿色、蓝色、透明度四个分量
         var data = context.getImageData(0, 0, 690, 457).data;
-        const t1 = data.length;
-        /**
-         * @brief: 随机取像素点
-         */        
-        // console.log(t1);
-        // const t=Math.floor(Math.random() * Math.floor(t1/4));
-        // // console.log(t);
-        // // 四个一组随机取
-        // console.log(data[4*t],data[4*t+1],data[4*t+2],data[4*t+3]);
-        // 
-        var list = [];
+        // 处理data/4个一组/组一个新的data
+        var newData = [];
+        console.log(data.length);
+        for(i=0;i<data.length;i=i+4){
+          var chunk = [];
+          chunk.push(data[i]);
+          chunk.push(data[i+1]);
+          chunk.push(data[i+2]);
+          chunk.push(data[i+3]);
+          newData.push(chunk);
+        }
+        // console.log(newData);
+        // 调用接口
+        var temp = KMeans(newData,1);
+
+        // const t1 = data.length;
+        // /**
+        //  * @brief: 随机取像素点
+        //  */        
+        // // console.log(t1);
+        // // const t=Math.floor(Math.random() * Math.floor(t1/4));
+        // // // console.log(t);
+        // // // 四个一组随机取
+        // // console.log(data[4*t],data[4*t+1],data[4*t+2],data[4*t+3]);
+        // // 
+        // var list = [];
 
 
       };
