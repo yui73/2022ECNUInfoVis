@@ -2,7 +2,7 @@
  * @Author: error: yui73
  * @Date: 2022-07-26 11:02:01
  * @LastEditors: Yui_73 isping.zhao@outlook.com
- * @LastEditTime: 2022-07-26 16:52:56
+ * @LastEditTime: 2022-07-28 17:48:19
  * @FilePath: \2022ECNUInfoVis\kmeans\lib\distance.js
  * @Description: k-means算法距离计算模块
  */
@@ -16,7 +16,7 @@
 // 欧式距离 Euclidean Distance
 
 function CalcEuDistance(x,center){
-    console.log("[DEBUG][CalcEuDistance]");
+    // console.log("[DEBUG][CalcEuDistance]");
     // t 平方和
     var t = 0;
     // x.length为数据维数，无需提前约定

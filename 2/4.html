@@ -1,3 +1,11 @@
+<!--
+ * @Author: Yui_73 isping.zhao@outlook.com
+ * @Date: 2022-07-25 10:04:01
+ * @LastEditors: Yui_73 isping.zhao@outlook.com
+ * @LastEditTime: 2022-07-27 14:45:14
+ * @FilePath: \2022ECNUInfoVis\2\4.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
 <!DOCTYPE html>
 <html>
   <head>
@@ -19,8 +27,8 @@
     -->
     <canvas
       id="myCanvas"
-      width="690"
-      height="457"
+      width="93"
+      height="62"
       style="border: 1px solid #c3c3c3"
     >
       Your browser does not support the canvas element.
@@ -36,7 +44,7 @@
 
         // data中保存了图片所有像素的颜色信息，每个像素的RGBA信息占数组中4位
         // RGBA为像素的红色、绿色、蓝色、透明度四个分量
-        var data = context.getImageData(0, 0, 690, 457).data;
+        var data = context.getImageData(0, 0, 93, 62).data;
         // 处理data/4个一组/组一个新的data
         var newData = [];
         console.log(data.length);
@@ -50,7 +58,7 @@
         }
         // console.log(newData);
         // 调用接口
-        var temp = KMeans(newData,1);
+        var temp = KMeans(newData,3);
 
         // const t1 = data.length;
         // /**
