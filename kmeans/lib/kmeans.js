@@ -2,7 +2,7 @@
  * @Author:yui73
  * @Date: 2022-07-26 10:50:06
  * @LastEditors: Yui_73 isping.zhao@outlook.com
- * @LastEditTime: 2022-07-28 18:23:41
+ * @LastEditTime: 2022-08-19 14:01:15
  * @FilePath: \2022ECNUInfoVis\kmeans\lib\kmeans.js
  * @Description: 使用JavaScript实现k-means算法 ES6
  */
@@ -76,6 +76,7 @@ function KMeans(data,k){
         // centroids = newCentroids.splice();
     }
     console.log("迭代完成");
+    SaveCentroidsAsTXT(centroids,"centroids");
     return cluster;
 }
 
@@ -102,3 +103,4 @@ function RandomCentroids(data,k){
     }
     return centroids;
 }
+

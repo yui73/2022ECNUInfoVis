@@ -1,0 +1,113 @@
+<!-- 可视化一个聚类 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DataVis_Practice_02</title>
+  </head>
+  <body>
+    <!-- 载入可视化库 -->
+    <script type="text/javascript" src="../static/js/echarts.js"></script>
+    <script type="text/javascript" src="../static/js/echarts-gl.js"></script>
+
+    <!-- 载入D3库 -->
+    <script src="../static/js/d3.v3.min.js"></script>
+
+    <script type="text/javascript" src="../kmeans/lib/toHEX.js"></script>
+
+    <!-- 
+	  -- 一个画布
+	  -- 画布相关代码参考：https://www.w3school.com.cn/html5/html_5_canvas.asp
+    -->
+    <!-- <canvas
+      id="myCanvas"
+      width="93"
+      height="62"
+      style="border: 1px solid #c3c3c3"
+    >
+      Your browser does not support the canvas element.
+    </canvas> -->
+
+    <div id="container" style="width: 2000px;height: 1000px;"></div>
+
+    <script type="text/javascript">
+    // 对聚类结果进行三维可视化
+    // 使用D3库导入数据
+    d3.csv("../2/data/kmeans/2/cluster0.csv", function(data) {
+		//此文件载入操作是异步，以下代码在文件完全载入后触发
+    // 先尝试对一个聚类结果进行可视化
+		console.log(data);
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(document.querySelector('div'));
+    var app = {};
+    var symbolSize = 3.5;
+    var option;
+    option = {
+      grid3D:{},
+      xAxis3D:{
+        // type:'R'
+      },
+      yAxis3D:{
+        // type:'G'
+      },
+      zAxis3D:{
+        // type:'B'
+      },
+      dataset:{
+        dimensions:[
+          'R',
+          'G',
+          'B',
+        ],
+        source:data,
+      },
+      series:[
+        {
+          type:'scatter3D',
+          symbolSize:symbolSize,
+          encode:{
+            x:'R',
+            y:'G',
+            z:'B',
+          },
+          itemStyle:{
+            normal:{
+              color:'#9C4059'
+              // function(){
+              //   var strRGB = "";
+              //   strRGB = "rgb(156,4,81)";
+              //   var strHEX = "";
+              //   strHEX = toHEX(strRGB);
+              //   console.log(strRGB);
+              //   console.log(strHEX);
+              //   return strHEX;
+              // },
+              // function(params){
+              //   // 调用RGB转化
+              //   var strRGB = "";
+              //   strRGB = "rgb("+params.data.R.toString()+","+params.data.G.toString()+","+params.data.B.toString()+")";
+              //   var strHEX = "";
+              //   strHEX = toHEX(strRGB);
+              //   console.log(strRGB);
+              //   console.log(strHEX);
+              //   return strHEX;
+              // },
+            },
+            emphasis:{
+              color:'blue'
+            }
+          }
+        }
+      ]
+    };
+    myChart.setOption(option);
+    // option && myChart.setOption(option);
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+	});
+    </script>
+  </body>
+</html>

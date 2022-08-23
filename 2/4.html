@@ -1,11 +1,4 @@
-<!--
- * @Author: Yui_73 isping.zhao@outlook.com
- * @Date: 2022-07-25 10:04:01
- * @LastEditors: Yui_73 isping.zhao@outlook.com
- * @LastEditTime: 2022-07-27 14:45:14
- * @FilePath: \2022ECNUInfoVis\2\4.html
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
+<!-- 获取图像信息并使用Kmeans算法进行聚类 -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -20,6 +13,9 @@
     <script src="../kmeans/lib/kmeans.js"></script>
     <script src="../kmeans/lib/cluster.js"></script>
     <script src="../kmeans/lib/distance.js"></script>
+    
+    <!-- 载入运算数据静态化库 -->
+    <script src="../kmeans/lib/toTXT.js"></script>
 
     <!-- 
 	  -- 一个画布
@@ -60,24 +56,10 @@
         // 调用接口
         var temp = KMeans(newData,3);
 
-        // const t1 = data.length;
-        // /**
-        //  * @brief: 随机取像素点
-        //  */        
-        // // console.log(t1);
-        // // const t=Math.floor(Math.random() * Math.floor(t1/4));
-        // // // console.log(t);
-        // // // 四个一组随机取
-        // // console.log(data[4*t],data[4*t+1],data[4*t+2],data[4*t+3]);
-        // // 
-        // var list = [];
-
-
+        console.log(temp);
+        // 保存数据供画图
+        SaveDataAsTXT(temp,3);
       };
-      // 重构数据结构/4个一组/组一个新的list
-
-      // JS实现K-means聚类
-      // 对聚类结果使用EChart可视化
     </script>
   </body>
 </html>

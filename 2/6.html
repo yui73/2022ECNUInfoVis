@@ -1,0 +1,130 @@
+<!-- 将所有聚类信息可视化 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DataVis_Practice_Kmeans</title>
+  </head>
+  <body>
+    <!-- 载入可视化库 -->
+    <script type="text/javascript" src="../static/js/echarts.js"></script>
+    <script type="text/javascript" src="../static/js/echarts-gl.js"></script>
+
+    <!-- 载入D3库 -->
+    <script src="../static/js/d3.v3.min.js"></script>
+
+    <script type="text/javascript" src="../kmeans/lib/toHEX.js"></script>
+
+    <div id="container" style="width: 2000px;height: 1000px;"></div>
+
+    <script type="text/javascript">
+    // 对聚类结果进行三维可视化
+    // 使用D3库导入数据
+    d3.csv("../2/data/kmeans/2/cluster0.csv", function(data1) {
+        d3.csv("../2/data/kmeans/2/cluster1.csv", function(data2) {
+            d3.csv("../2/data/kmeans/2/cluster2.csv", function(data3) {
+                // 可视化
+                var dom = document.getElementById('container');
+                var myChart = echarts.init(document.querySelector('div'));
+                var app = {};
+                var symbolSize = 3.5;
+                var option;
+                option = {
+                grid3D:{},
+                xAxis3D:{}, 
+                yAxis3D:{},
+                zAxis3D:{},
+                dataset:[{
+                    dimensions:[
+                        'R',
+                        'G',
+                        'B',
+                    ],
+                    source:data1,
+                },{
+                    dimensions:[
+                        'R',
+                        'G',
+                        'B',
+                    ],
+                    source:data2,
+                },{
+                    dimensions:[
+                        'R',
+                        'G',
+                        'B',
+                    ],
+                    source:data3,
+                }],
+                series:[
+                    {
+                        type:'scatter3D',
+                        symbolSize:symbolSize,
+                        datasetIndex:0,
+                        encode:{
+                            x:'R',
+                            y:'G',
+                            z:'B',
+                        },
+                        itemStyle:{
+                            normal:{
+                                // 平均值
+                                color:'#9C4059'
+                            },
+                            emphasis:{
+                                color:'blue'
+                            }
+                        }
+                    },
+                    {
+                        type:'scatter3D',
+                        symbolSize:symbolSize,
+                        datasetIndex:1,
+                        encode:{
+                            x:'R',
+                            y:'G',
+                            z:'B',
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#421321'
+                            },
+                            emphasis:{
+                                color:'blue'
+                            }
+                        }
+                    },
+                    {
+                        type:'scatter3D',
+                        symbolSize:symbolSize,
+                        datasetIndex:2,
+                        encode:{
+                            x:'R',
+                            y:'G',
+                            z:'B',
+                        },
+                        itemStyle:{
+                            normal:{
+                                color:'#D17D8C'
+                            },
+                            emphasis:{
+                                color:'blue'
+                            }
+                        }
+                    },
+                    
+                ]
+                };
+                myChart.setOption(option);
+                if (option && typeof option === 'object') {
+                    myChart.setOption(option);
+                }
+
+                window.addEventListener('resize', myChart.resize);
+                });
+            });
+        });
+    
+    </script>
+  </body>
+</html>
