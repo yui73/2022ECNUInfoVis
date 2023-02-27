@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>DataVis_Practice_3_2</title>
+</head>
+<body>
+<!-- 载入可视化库 -->
+<script type="text/javascript" src="../static/js/echarts.js"></script>
+<script type="text/javascript" src="../static/js/echarts-gl.js"></script>
+
+<!-- 载入D3库 -->
+<script src="../static/js/d3.v3.min.js"></script>
+<div id="container" style="width: 2000px;height: 1000px;"></div>
+<script type="text/javascript">
+	d3.csv("../3/data/02-AQIData.csv", function(data) {
+		//此文件载入操作是异步，以下代码在文件完全载入后触发
+		console.log(data);
+
+		// 取出AQI列
+		var aqii=[];
+		for(var i=0;i<data.length;i++){
+			aqii.push(data[i].aqi)
+		}
+		// 取出最大最小值
+		var maxData=d3.max(aqii);
+		var minData=d3.min(aqii);
+		// 计算缩放比例[0,100]-数据差值
+		var e=(100-0)/(maxData-minData);
+		console.log(e);
+		// 重新计算aqi
+		var newAQI=[];
+		var picData=[];
+		for(var i=0;i<data.length;i++){
+			data[i].aqii=data[i].aqi*e;
+			newAQI=data[i].aqi*e;
+			// 重构数据结构[x,y]的形式
+			picData.push([data[i].lan,data[i].lng]);
+		}
+		// 处理后的数据用散点图显示，AQI的值用散点大小体现
+		// lan纬度latitude；lng经度Longtitude
+		var dom = document.getElementById('container');
+		var myChart = echarts.init(document.querySelector('div'));
+		var app = {};
+		var option;
+		option = {
+		title: {
+		text: 'AQI空气质量散点图',
+		subtext: 'zhaoping',
+		left: 'right'
+        },
+		xAxis: {},
+		yAxis: {},
+		series: [
+			{
+			symbolSize: function(newAQI){
+				return newAQI[0];
+			},
+			data:picData,
+			type: 'scatter'
+			}
+		]};
+		myChart.setOption(option);
+		if (option && typeof option === 'object') {
+			myChart.setOption(option);
+		}
+
+		window.addEventListener('resize', myChart.resize);
+	});
+	
+</script>
+
+</body>
+</html>

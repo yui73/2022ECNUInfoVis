@@ -1,0 +1,69 @@
+<!DOCTYPE html> 
+<html style='height: 100%'>    
+<head>        
+    <meta charset='utf-8'>    
+</head>    
+<body style='height: 100%; margin: 0'>        
+    <div id='container' style='height: 100%'></div>        
+    <script type='text/javascript' src='../static/js/echarts.min.js'></script>        
+    <script type='text/javascript' src='../static/js/echarts-gl.min.js'></script>        
+    <script type='text/javascript' src='../static/js/ecStat.min.js'></script>        
+    <script type='text/javascript' src='../static/js/dataTool.min.js'></script> 
+    <script type="text/javascript">
+
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+var categoryData = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+var barData = [120, 200, 150, 80, 70, 110, 130];
+var barOrigin = barData;
+
+// 实践课3-练习1，请编写冒泡排序代码，实现对七天数据的排序，并在柱状图中正确显示
+// 想用键值对
+// var result={Mon:120,Tue:200,Wed:150,Thu:80,Fri:70,Sat:110,Sun:130};
+// 从大到小
+function BubbleSort(arr){
+    for(var i=0;i<arr.length-1;i++){
+        for(var j=0;j<arr.length-i-1;j++){
+            var temp;
+            if(arr[j]<arr[j+1]){
+                // 交换数据同时交换日期
+                temp=arr[j+1];
+                arr[j+1]=arr[j];
+                arr[j]=temp;
+                // 交换日期
+                temp = categoryData[j+1];
+                categoryData[j+1]=categoryData[j];
+                categoryData[j]=temp;
+            }
+        }
+    }
+}
+
+BubbleSort(barData)
+
+option = null;
+option = {
+    xAxis: {
+        type: 'category',
+        data: categoryData
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: barData,
+        type: 'bar',
+        showBackground: true,
+        backgroundStyle: {
+            color: 'rgba(220, 220, 220, 0.8)'
+        }
+    }]
+};
+;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
