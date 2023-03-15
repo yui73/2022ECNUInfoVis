@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html style='height: 100%'>
+
+<head>
+
+    <meta charset='utf-8'>
+    <link rel="stylesheet" href="../static/leaflet/leaflet.css"
+        integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+
+
+</head>
+
+<body style='height: 100%; margin: 0'>
+    <!-- 使用leaflet热力图js -->
+    <script src="../static/leaflet/plugins/leaflet-heatmap.min.js"></script>
+    <!-- 地图容器 -->
+    <div id="map" style='height: 100%'></div>
+    <script type='text/javascript' src='../static/js/echarts.min.js'></script>
+    <!-- <script type='text/javascript' src='../static/js/echarts-gl.min.js'></script>         -->
+    <script type='text/javascript' src='../static/js/ecStat.min.js'></script>
+    <script type='text/javascript' src='../static/js/dataTool.min.js'></script>
+    <script src="../static/leaflet/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
+        crossorigin=""></script>
+    <!-- 使用插件优化标记速度 -->
+    <script src="../static/leaflet/plugins/leaflet.canvas-markers.js"></script>
+    <script type="text/javascript" src="http://api.tianditu.gov.cn/api?v=4.0&tk=xx"></script>
+    <!-- 载入D3库 -->
+    <script src="../static/js/d3.v3.min.js"></script>
+    <!-- 载入排序和处理js -->
+    <script src="../5/cal.js"></script>
+    <script type="text/javascript">
+        // 处理数据
+        // d3.json("../5/data/05-Covid-SH.json",function(data){
+        //     console.log("未处理",data);
+        //     hotCal(data,0.05);
+        // });
+        // 静态化之后可视化数据
+        d3.csv("../5/data/hot.csv", function (data) {
+            console.log(data);
+            // 添加地图
+            // var map = L.map('map', { crs: L.CRS.EPSG4326, }).setView([31.22950, 121.39890], 15);
+
+
+
+            // 可视化 echarts只支持百度地图插件，天地图的不会弄，先试一下leaflet的
+            // var config = {  //热力图的配置项
+            //     radius: 'radius',       //设置每一个热力点的半径
+            //     maxOpacity: 0.9,        //设置最大的不透明度
+            //     // minOpacity: 0.3,     //设置最小的不透明度
+            //     scaleRadius: true,      //设置热力点是否平滑过渡
+            //     blur: 0.95,             //系数越高，渐变越平滑，默认是0.85,
+            //     //滤镜系数将应用于所有热点数据。
+            //     useLocalExtrema: true,  //使用局部极值
+            //     latField: 'lat',   //维度
+            //     lngField: 'lng',  //经度
+            //     valueField: 'hot',    //热力点的值
+            //     gradient: {
+            //         "0.99": "rgba(255,0,0,1)",
+            //         "0.9": "rgba(255,255,0,1)",
+            //         "0.8": "rgba(0,255,0,1)",
+            //         "0.5": "rgba(0,255,255,1)",
+            //         "0": "rgba(0,0,255,1)"
+            //     },
+            //     //过渡，颜色过渡和过渡比例,范例：
+            //     /*
+            //         {   "0.99": "rgba(255,0,0,1)",
+            //             "0.9": "rgba(255,255,0,1)",
+            //             "0.8": "rgba(0,255,0,1)",
+            //             "0.5": "rgba(0,255,255,1)",
+            //             "0": "rgba(0,0,255,1)"
+            //         }
+            //     */
+            //     // backgroundColor: 'rgba(27,34,44,0.5)'    //热力图Canvas背景
+            // };
+            var heatmapLayer = new HeatmapOverlay({  //热力图的配置项
+                radius: 5,       //设置每一个热力点的半径
+                maxOpacity: 0.9,        //设置最大的不透明度
+                // minOpacity: 0.3,     //设置最小的不透明度
+                scaleRadius: true,      //设置热力点是否平滑过渡
+                blur: 0.95,             //系数越高，渐变越平滑，默认是0.85,
+                //滤镜系数将应用于所有热点数据。
+                useLocalExtrema: true,  //使用局部极值
+                latField: 'lat',   //维度
+                lngField: 'lng',  //经度
+                valueField: 'hot',    //热力点的值
+                gradient: {
+                    "100": "rgba(255,0,0,1)",
+                    "50": "rgba(255,255,0,1)",
+                    "30": "rgba(0,255,0,1)",
+                    "20": "rgba(0,255,255,1)",
+                    "0": "rgba(0,0,255,1)"
+                },
+                //过渡，颜色过渡和过渡比例,范例：
+                /*
+                    {   "0.99": "rgba(255,0,0,1)",
+                        "0.9": "rgba(255,255,0,1)",
+                        "0.8": "rgba(0,255,0,1)",
+                        "0.5": "rgba(0,255,255,1)",
+                        "0": "rgba(0,0,255,1)"
+                    }
+                */
+                // backgroundColor: 'rgba(27,34,44,0.5)'    //热力图Canvas背景
+            });
+
+            // openstreetmap 寄了换成天地图 需要个人密钥
+            var baseLayer = L.tileLayer('http://t1.tianditu.com/vec_c/wmts?layer=vec&style=default&tilematrixset=c&Service=WMTS&Request=GetTile&Version=1.0.0&Format=tiles&TileMatrix={z}&TileCol={x}&TileRow={y}&tk=93724b915d1898d946ca7dc7b765dda5', {
+
+                minZoom: 1,
+                maxZoom: 19,
+                maximumLevel: 18, // 必须加上最大级数
+                zoomOffset: 1,
+                // 数据量比较大 选择Canvas 提升渲染速度
+                preferCanvas: true,
+                attribution: '&copy; <a href="http://t0.tianditu.gov.cn/img_c/wmts?request=GetCapabilities&service=wmts">tianditu</a>'
+            });
+            L.Map('map', {
+                crs: L.CRS.EPSG4326,
+                center: new L.LatLng(31.22950, 121.39890),
+                zoom: 15,
+                layers: [baseLayer, heatmapLayer]
+            }).addTo(map);
+            heatmapLayer.setData(data);
+
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>
